@@ -1,6 +1,6 @@
 {
 	"name": "timely",
-	"version": "0.0.2-dev.5",
+	"version": "0.0.2-dev.6",
 	"private": true,
 	"scripts": {
 		"android": "react-native run-android",
