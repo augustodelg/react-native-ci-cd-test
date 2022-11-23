@@ -52,13 +52,16 @@ jobs:
         run: cd android && chmod +x ./gradlew
         # Build Command
 
-      - name: set up JDK 1.8
+      - name: set up JDK 11
         uses: actions/setup-java@v1
         with:
          java-version: 11
       
       - name: Build android APK
         run: npm run && cd android && ./gradlew assembleRelease
+        run: ls android/app/build/
+        run: ls android/app/build/outputs/
+        run: ls android/app/build/outputs/apk/
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
@@ -66,26 +69,26 @@ jobs:
           name: TestApp.apk
           path: android/app/build/outputs/apk/app-release.apk
 
-      - name: Build Android ${{inputs.environment == 'release' && 'Release' || 'Debug'}}
-        run: |
-          cd android && ./gradlew bundle${{inputs.environment == 'release' && 'Release' || 'Debug'}} --no-daemon
-      - run: pwd
-      - name: Sign app APK
-        uses: r0adkll/sign-android-release@v1
-        id: sign_app
-        with:
-          releaseDirectory: android/app/build/outputs/bundle/release
-          signingKeyBase64: ${{ secrets.ANDROID_KEYSTORE }}
-          alias: ${{ secrets.ANDROID_KEY_ALIAS }}
-          keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          # keyPassword: ${{ secrets.KEY_PASSWORD }}
+      # - name: Build Android ${{inputs.environment == 'release' && 'Release' || 'Debug'}}
+      #   run: |
+      #     cd android && ./gradlew bundle${{inputs.environment == 'release' && 'Release' || 'Debug'}} --no-daemon
+      # - run: pwd
+      # - name: Sign app APK
+      #   uses: r0adkll/sign-android-release@v1
+      #   id: sign_app
+      #   with:
+      #     releaseDirectory: android/app/build/outputs/bundle/release
+      #     signingKeyBase64: ${{ secrets.ANDROID_KEYSTORE }}
+      #     alias: ${{ secrets.ANDROID_KEY_ALIAS }}
+      #     keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+      #     # keyPassword: ${{ secrets.KEY_PASSWORD }}
 
-      # Upload to Artifact
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: TestApp.aab
-          path: ${{steps.sign_app.outputs.signedReleaseFile}}
+      # # Upload to Artifact
+      # - name: Upload Artifact
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: TestApp.aab
+      #     path: ${{steps.sign_app.outputs.signedReleaseFile}}
 
       
 
