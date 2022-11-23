@@ -59,13 +59,25 @@ jobs:
       
       - name: Build android APK
         # run: npm run && cd android && ./gradlew assembleRelease && ls android/app/build/ && ls android/app/build/outputs/ && ls android/app/build/outputs/apk/
-        run: npm run && cd android && ./gradlew assembleRelease && ls build && ls app
+        run: |
+          npm run 
+          cd android && ./gradlew assembleRelease 
+          echo "LS "
+          ls 
+          echo "LS BUILD"
+          ls build 
+          echo "LS APP"
+          ls app
+          echo "LS APP/build"
+          ls app/build/
+          echo "LS De donde puede llegar a estar las releases"
+          ls app/build/outputs/apk/release/
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: TestApp.apk
-          path: build/outputs/apk/app-release.apk
+          path: android/app/build/outputs/apk/release/
 
       # - name: Build Android ${{inputs.environment == 'release' && 'Release' || 'Debug'}}
       #   run: |
