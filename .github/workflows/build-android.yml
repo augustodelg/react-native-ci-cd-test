@@ -65,7 +65,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: TestApp.apk
-          path: android/app/build/outputs/apk/app-release.apk
+          path: app/build/outputs/apk/app-release.apk
 
       # - name: Build Android ${{inputs.environment == 'release' && 'Release' || 'Debug'}}
       #   run: |
